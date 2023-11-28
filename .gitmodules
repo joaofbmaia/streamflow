@@ -1,0 +1,3 @@
+[submodule "dfg_generator"]
+	path = dfg_generator
+	url = https://github.com/joaofbmaia/Morpher_DFG_Generator.git

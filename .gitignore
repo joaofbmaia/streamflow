@@ -1,0 +1,9 @@
+.vscode
+.metals
+
+
+kernel_transformer/clava
+
+benchmarks/**/unrolled_code
+benchmarks/**/flatten_code
+benchmarks/**/morpher_formatted_code
