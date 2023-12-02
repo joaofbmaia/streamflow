@@ -4,7 +4,7 @@
 
 kernel_transformer/clava
 
-benchmarks/**/unrolled_code
-benchmarks/**/flatten_code
-benchmarks/**/morpher_formatted_code
-benchmarks/**/dfg_gen_output
+benchmarks/**/0_unrolled_code
+benchmarks/**/1_flattened_code
+benchmarks/**/2_morpher_formatted_code
+benchmarks/**/3_dfg_gen_output

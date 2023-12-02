@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Dependencies
+#sudo apt install graphviz
+
+
 # Create the clava directory if it doesn't exist
 mkdir -p kernel_transformer/clava
 
@@ -12,7 +16,7 @@ unzip clava.zip -d kernel_transformer/clava
 # Remove the clava.zip file
 rm clava.zip
 
-
+# Build LLVM
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
 git checkout llvmorg-10.0.0
