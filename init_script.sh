@@ -35,3 +35,12 @@ mkdir build
 cd build
 cmake ..
 make VERBOSE=1 -j$(nproc)
+
+cd ../..
+
+# Build CGRA Mapper
+cd cgra_mapper
+mkdir build
+cd build
+cmake ..
+make all -j$(nproc)

@@ -11,6 +11,7 @@ unrolled_code_dir_name = "0_unrolled_code"
 flattened_code_dir_name = "1_flattened_code"
 morpher_formatted_code_dir_name = "2_morpher_formatted_code"
 dfg_gen_output_dir_name = "3_dfg_gen_output"
+cgra_mapper_output_dir_name = "4_cgra_mapper_output"
 
 if len(sys.argv) < 3:
     print("Please provide the source file path as an argument.")
@@ -47,6 +48,7 @@ ll_ir_path = dfg_gen_output_dir + "/" + source_file_name_without_extension + ".l
 ll_ir_opt_path = dfg_gen_output_dir + "/" + source_file_name_without_extension + "_opt.ll"
 ll_ir_opt_instrument_path = dfg_gen_output_dir + "/" + source_file_name_without_extension + "_opt_instrument.ll"
 
+cgra_mapper_output_dir = source_file_dir + "/" + cgra_mapper_output_dir_name
 
 #################### Kernel Transforms ####################
 
@@ -205,5 +207,55 @@ try:
 except subprocess.CalledProcessError as e:
     print("Simple DFG PDF generation failed:", e)
 
+output_dfg_xml_path = dfg_gen_output_dir + "/" + function_name + "_PartPred_AGI_REMOVED_DFG.xml"
 
+#################### Morpher CGRA Mapper ####################
 
+dfg_xml_path = cgra_mapper_output_dir + "/" + function_name + "_PartPred_AGI_REMOVED_DFG.xml"
+
+cgra_mapper_dir = streamflow_dir + "/cgra_mapper"
+cgra_mapper_bin = cgra_mapper_dir + "/build/src/cgra_xml_mapper"
+
+# Check if the directory exists
+if os.path.exists(cgra_mapper_output_dir):
+    # Remove the directory
+    shutil.rmtree(cgra_mapper_output_dir)
+
+# Create dfg_gen_output directory if it doesn't exist
+os.makedirs(cgra_mapper_output_dir, exist_ok=True)
+
+# Copy file from output_dfg_xml_path to dfg_xml_path
+shutil.copy(output_dfg_xml_path, dfg_xml_path)
+
+json_arch = cgra_mapper_dir + "/json_arch/stdnoc.json"
+initial_ii = "0"
+max_ii = "32"
+max_iter = "30"
+backtrack_limit = "1"
+mapping_method = "0"
+
+# Map DFG to CGRA
+cgra_mapper_command = [
+    cgra_mapper_bin,
+    "--json_arch",
+    json_arch,
+    "--dfg",
+    dfg_xml_path,
+    "--ii",
+    initial_ii,
+    "--max_II",
+    max_ii,
+    "--max_iter",
+    max_iter,
+    "--backtrack_limit",
+    backtrack_limit,
+    "--mapping",
+    mapping_method,
+    "-p"
+]
+
+try:
+    subprocess.run(cgra_mapper_command, check=True, cwd=cgra_mapper_output_dir)
+    print("CGRA mapping successfully.")
+except subprocess.CalledProcessError as e:
+    print("CGRA mapping failed:", e)
