@@ -4,7 +4,7 @@
 #define NJ 1024
 #define NK 1024
 
-#define TILE_SIZE 4
+#define TILE_SIZE 2
 
 float E[NI][NJ];
 float A[NI][NK];
