@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import shutil
+import xml.etree.ElementTree as ET
 
 unrolled_code_dir_name = "0_unrolled_code"
 flattened_code_dir_name = "1_flattened_code"
@@ -227,12 +228,35 @@ os.makedirs(cgra_mapper_output_dir, exist_ok=True)
 # Copy file from output_dfg_xml_path to dfg_xml_path
 shutil.copy(output_dfg_xml_path, dfg_xml_path)
 
-json_arch = cgra_mapper_dir + "/json_arch/stdnoc.json"
+remove_recurrence_dependencies = True
+json_arch = cgra_mapper_dir + "/json_arch/bubbletea_4x4.json"
 initial_ii = "0"
-max_ii = "32"
+max_ii = "8"
 max_iter = "30"
 backtrack_limit = "1"
 mapping_method = "0"
+
+if remove_recurrence_dependencies:
+    # Remove lines between <RecParents> and </RecParents> in the output_dfg_xml_path file
+    start_tag = "<RecParents>"
+    end_tag = "</RecParents>"
+    inside_tag = False
+    new_lines = []
+    
+    with open(dfg_xml_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            if start_tag in line:
+                inside_tag = True
+                new_lines.append(line)  # Keep the start tag line
+                continue
+            elif end_tag in line:
+                inside_tag = False
+            if not inside_tag or end_tag in line:
+                new_lines.append(line)  # Keep lines outside the tags and the end tag line
+    
+    with open(dfg_xml_path, 'w', encoding='utf-8') as file:
+        file.writelines(new_lines)
+
 
 # Map DFG to CGRA
 cgra_mapper_command = [
