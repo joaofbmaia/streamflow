@@ -73,6 +73,8 @@ Each stage writes its output next to the source file (`0_unrolled_code/`, `1_fla
 
 ## Reference
 
+> J. Maia, **"Stream-based Coarse-Grained Reconfigurable Accelerator"**, MSc thesis, Instituto Superior Técnico, 2025. Supervised by P. Tomás and N. Roma. [[Record]](https://scholar.tecnico.ulisboa.pt/records/q6Wju__CshOqaxesH3UP-CUDHal3EJJy20WS) [[PDF]](https://scholar.tecnico.ulisboa.pt/api/records/q6Wju__CshOqaxesH3UP-CUDHal3EJJy20WS/file/14a4768311b9258c6883ac82405e130e8df23b1b5560c0ca9e6b9eb3461c8d2e.pdf)
+>
 > J. Maia, A. Silveira, G. Midões, N. Neves, P. Tomás, N. Roma, **"Stream-Driven Acceleration for Embedded RISC-V SoCs"**, IEEE ISCAS 2025. [[IEEE Xplore]](https://ieeexplore.ieee.org/document/11043244/)
 
 The DFG generator and CGRA mapper build on [Morpher](https://github.com/ecolab-nus/Morpher_CGRA_Mapper) (NUS ECoLab).
